@@ -1,0 +1,61 @@
+using System;
+
+namespace BankSystem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Welcome to the Bank System");
+            Console.WriteLine("--------------------------");
+
+            BankAccount account = new BankAccount("John Doe", 1000.00);
+
+            Console.WriteLine($"Account Holder: {account.AccountHolder}");
+            Console.WriteLine($"Account Balance: {account.Balance:C}");
+
+            Console.WriteLine("Enter the amount to deposit:");
+            double depositAmount = Convert.ToDouble(Console.ReadLine());
+            account.Deposit(depositAmount);
+
+            Console.WriteLine("Enter the amount to withdraw:");
+            double withdrawAmount = Convert.ToDouble(Console.ReadLine());
+            bool withdrawResult = account.Withdraw(withdrawAmount);
+
+            if (withdrawResult)
+                Console.WriteLine("Withdrawal successful");
+            else
+                Console.WriteLine("Insufficient funds for withdrawal");
+
+            Console.WriteLine($"Updated Account Balance: {account.Balance:C}");
+        }
+    }
+
+    class BankAccount
+    {
+        public string AccountHolder { get; }
+        public double Balance { get; private set; }
+
+        public BankAccount(string accountHolder, double initialBalance)
+        {
+            AccountHolder = accountHolder;
+            Balance = initialBalance;
+        }
+
+        public void Deposit(double amount)
+        {
+            Balance += amount;
+        }
+
+        public bool Withdraw(double amount)
+        {
+            if (amount <= Balance)
+            {
+                Balance -= amount;
+                return true;
+            }
+
+            return false;
+        }
+    }
+}
